@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Roof Sketch - Use This FREE Aerial Measurement Software FREE</title>
+    <meta name="description" content="Roof Sketch For Roofing Contractors Create Professional Looking Roof Measurement Reports At NO Cost Try It FREE">
+    <meta name="keywords" content="roof sketch,Aerial Roof Sketch,roof,sketch">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-slider.min.css">
+    <link rel="stylesheet" href="css/jquery-jcrop.css">
+
+    <style>
+        @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+        .spinner input {
+            text-align: right;
+        }
+
+        .input-group-btn-vertical {
+            position: relative;
+            white-space: nowrap;
+            width: 2%;
+            vertical-align: middle;
+            display: table-cell;
+        }
+
+        .input-group-btn-vertical>.btn {
+            display: block;
+            float: none;
+            width: 100%;
+            max-width: 100%;
+            padding: 8px;
+            margin-left: -1px;
+            position: relative;
+            border-radius: 0;
+        }
+
+        .input-group-btn-vertical>.btn:first-child {
+            border-top-right-radius: 4px;
+        }
+
+        .input-group-btn-vertical>.btn:last-child {
+            margin-top: -2px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .input-group-btn-vertical i {
+            position: absolute;
+            top: 0;
+            left: 4px;
+        }
+
+        body {
+            background-color: WhiteSmoke;
+        }
+
+        #ImageContainer {}
+
+        #zoomSlider1 .slider-selection {
+            background: #BABABA;
+        }
+
+        #theImage {
+            margin-left: 10px;
+            cursor: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        #theCanvas {
+            border: 1px dashed rgb(200, 200, 200);
+            margin-left: 10px;
+            cursor: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        #theCrosshairs {
+            margin-left: 10px;
+            cursor: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .hide-bullets {
+            list-style: none;
+            margin-left: -40px;
+            margin-top: 0px;
+        }
+
+        .thumbnail {
+            padding: 0;
+            text-decoration: none !important;
+        }
+
+        .carousel-inner>.item>img,
+        .carousel-inner>.item>a>img {
+            width: 100%;
+        }
+
+        .geo-address-input {
+            min-width: 50%;
+            width: auto;
+            display: inline;
+        }
+
+        .reference-measure-input {
+            max-width: 130px;
+            width: auto;
+            display: inline;
+        }
+
+        .linespacer {
+            height: 10px;
+        }
+
+        .rounded {
+            border-radius: 10px;
+            background: #000; // without a background or border applied you won't be able to see if its rounded
+        }
+
+        .material-item {
+            padding: 10px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .init-view {}
+
+        .slider {
+            max-width: 170px !important;
+        }
+
+        .image-postion-toolbar {
+            padding: 5px !important;
+            margin-top: 15px !important;
+            margin-bottom: 5px !important;
+        }
+
+        .thumbnail-sidebar {
+            margin-bottom: 10px !important;
+        }
+
+        .sectionCanvas {
+            border: 1px dashed rgb(200, 200, 200);
+            margin-left: 10px;
+            cursor: auto;
+        }
+
+        .sectionInput {
+            min-width: 75% !important;
+        }
+
+        .footer-copyright {
+            background-color: #337ab7;
+            color: white;
+        }
+
+        .header-bg {
+            background-color: #e7e7e7;
+            color: white;
+        }
+    </style>
+    <style>
+        @media print {
+            .container-fluid {
+                display: inline !important;
+            }
+            .section-begin {
+                page-break-before: always !important;
+            }
+            .sectionInput {}
+            .reference-measure-input {
+                max-width: 50px;
+                width: auto;
+                display: inline;
+            }
+        }
+    </style>
+
+    <script src="configuration.js"></script>
+    <script src="scripts/lib/micro-enum.js"></script>
+    <script src="scripts/persistence.js"></script>
+    <script src="scripts/shapedata.js"></script>
+    <script src="scripts/canvastools.js"></script>
+    <script src="scripts/mouseactions.js"></script>
+    <script src="scripts/touchactions.js"></script>
+    <script src="scripts/thumbnails.js"></script>
+    <script src="scripts/toolbar.js"></script>
+    <script src="scripts/materials.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/propertyaddress.js"></script>
+    <script src="scripts/geometry.js"></script>
+    <script src="scripts/section.js"></script>
+
+    <script>
+        function troll(e) {
+            x = getCursorPosition(e)[0] - this.offsetLeft;
+            y = getCursorPosition(e)[1] - this.offsetTop;
+            //check for tolerance
+            for (var i = 0; i < pointStack.length; ++i) {
+                if (x >= pointStack[i].x - POINT_TOLERANCE && x <= pointStack[i].x + POINT_TOLERANCE && y >= pointStack[i].y - POINT_TOLERANCE && y <= pointStack[i].y + POINT_TOLERANCE) {
+                    //make the new click have identical coordiantes to the stored click
+                    x = pointStack[i].x;
+                    y = pointStack[i].y;
+                }
+            }
+            lastClick = new Point(x, y);
+            pointStack.push(lastClick);
+
+            clicks += 1;
+            shapes[shapeCount].points.push(lastClick);
+            drawAll();
+            reportStoredData();
+        }
+
+        window.onresize = function() {
+            layout();
+        }
+    </script>
+</head>
+
+<body>
+    <div id="header"></div>
+    <div class="container-fluid" id="appcontainer">
+        <div class="linespacer">
+        </div>
+        <div class="form-inline">
+            <div class="row">
+                <div class="col-sm-12">
+                    <input id="PropertyAddress" type="text" placeholder="Enter Property Address Here" class="form-control geo-address-input" onFocus="geolocate()">
+                    <button id="btnLoadAerialView" title="Load Map" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-globe"></span> Aerial</button>
+                    <button id="btnLoadStreetView" title="Load Map" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-road"></span> Street</button>
+                    <button id="modeMeasure" type="button" class="btn btn-sm btn-primary"><span class="fa-measuring-tape">Reference Measure</button>
+                    <span id="reference-line-toolbar">
+								<input id="referenceFeet" placeholder="Ref. Line Feet" class="form-control reference-measure-input">
+								<input id="referenceInches" placeholder="Ref. Line Inches" class="form-control reference-measure-input">
+						  	</span>
+                    <button id="btnSaveProject" type="button" title="save project" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button id="btnLoadProject" type="button" title="load project" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-folder-open"></span></button>
+                </div>
+            </div>
+        </div>
+        <div class="linespacer">
+        </div>
+        <div id="toolbar" class="form-inline">
+        </div>
+        <div class="linespacer">
+        </div>
+        <div class="row">
+            <div id="workspace" class="form-inline">
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-12" id="ImageContainer">
+                            <canvas name="theCanvas" id="theCanvas"></canvas>
+                            <canvas name="theImage" id="theImage"></canvas>
+                            <canvas name="theCrosshairs" id="theCrosshairs"></canvas>
+                            <canvas name="theCropLayer" id="theCropLayer"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <ul class="hide-bullets">
+                        <li class="form-inline">
+
+                            <a class="thumbnail thumbnail-sidebar" id="carousel-selector-1">
+			                        	<img id="carousel-image-1" src="https://placeholdit.imgix.net/~text?txtsize=45&txt=1&w=320&h=180">
+			                        	<label class="btn btn-xs btn-primary">
+			                        		<input type="file" id="uploadthumbnail1" style="display: none;">
+			                        		<span class="glyphicon glyphicon-upload"></span>
+			                        	</label>
+			                        	<input id="filename-image-1" class="form-control input-sm">
+			                        </a>
+
+                        </li>
+                        <li class="form-inline">
+                            <a class="thumbnail thumbnail-sidebar" id="carousel-selector-2">
+			                        	<img id="carousel-image-2" src="http://placehold.it/320x180&text=2">
+			                        	<label class="btn btn-xs btn-primary">
+			                        		<input type="file" id="uploadthumbnail2" style="display: none;">
+			                        		<span class="glyphicon glyphicon-upload"></span>
+			                        	</label>
+			                        	<input id="filename-image-2" class="form-control input-sm">
+									</a>
+                        </li>
+
+                        <li class="form-inline">
+                            <a class="thumbnail thumbnail-sidebar" id="carousel-selector-3">
+			                        	<img id="carousel-image-3" src="http://placehold.it/320x180&text=3">
+			                        	<label class="btn btn-xs btn-primary">
+			                        		<input type="file" id="uploadthumbnail3" style="display: none;">
+			                        		<span class="glyphicon glyphicon-upload"></span>
+			                        	</label>
+			                        	<input id="filename-image-3" class="form-control input-sm">
+			                        </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-2">
+                    <ul class="hide-bullets">
+                        <li>
+                            <a class="thumbnail thumbnail-sidebar" id="carousel-selector-4">
+			                        	<img id="carousel-image-4" src="http://placehold.it/320x180&text=4">
+			                        	<label class="btn btn-xs btn-primary">
+			                        		<input type="file" id="uploadthumbnail4" style="display: none;">
+			                        		<span class="glyphicon glyphicon-upload"></span>
+			                        	</label>
+			                        	<input id="filename-image-4" class="form-control input-sm">			                        	
+			                        </a>
+                        </li>
+
+                        <li>
+                            <a class="thumbnail thumbnail-sidebar" id="carousel-selector-5">
+			                        	<img id="carousel-image-5" src="http://placehold.it/320x180&text=5">
+			                        	<label class="btn btn-xs btn-primary">
+			                        		<input type="file" id="uploadthumbnail5" style="display: none;">
+			                        		<span class="glyphicon glyphicon-upload"></span>
+			                        	</label>
+			                        	<input id="filename-image-5" class="form-control input-sm">			                        	
+			                        </a>
+                        </li>
+
+                        <li>
+                            <a class="thumbnail thumbnail-sidebar" id="carousel-selector-6">
+			                        	<img id="carousel-image-6" src="http://placehold.it/320x180&text=6">
+			                        	<label class="btn btn-xs btn-primary">
+			                        		<input type="file" id="uploadthumbnail6" style="display: none;">
+			                        		<span class="glyphicon glyphicon-upload"></span>
+			                        	</label>
+			                        	<input id="filename-image-6" class="form-control input-sm">			                        	
+			                        </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="materials" class="form-inline">
+            </div>
+            <div id="section-data" class="form-inline">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="well">
+                            <p>Roof Section Data</p>
+                            <p><span id="results"></span></p>
+                            <input type="hidden" id="street_number"></input>
+                            <input type="hidden" id="route"></input>
+                            <input type="hidden" id="locality"></input>
+                            <input type="hidden" id="administrative_area_level_1"></input>
+                            <input type="hidden" id="postal_code"></input>
+                            <input type="hidden" id="country"></input>
+                        </div>
+                        <div id="sections" class="form-inline">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer"></div>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- JCrop Library -->
+    <script src="scripts/lib/jquery-jcrop.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Fabric.js for canvas manipulations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.6.7/fabric.min.js"></script>
+
+    <!-- Google type ahead address api -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwT0F23w8XtwVFNQl64VVMuyeJtBNv1SM&libraries=places&callback=initAutocomplete" async defer></script>
+
+    <!-- AIzaSyBwT0F23w8XtwVFNQl64VVMuyeJtBNv1SM -->
+    <script src="scripts/lib/bootstrap-slider.min.js"></script>
+
+    <!--  jspdf library -->
+    <script src="scripts/lib/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.0/jspdf.plugin.autotable.js"></script>
+    <script src="scripts/report.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Handler for .ready() called.
+            //setup the rest of the app
+            //load external materials view
+            $("#header").load('views/header.html');
+            //load external materials view
+            $("#footer").load('views/footer.html');
+            //load external materials view
+            $("#toolbar").load('views/toolbar.html');
+
+            //attach these events once materials view is loaded to dom
+            $("#toolbar").on('DOMNodeInserted', '#view-toolbar', function(e) {
+                //only do this for the outer class
+                if (e.target.className == 'init-view') {
+                    //Zoom
+                    $('#zoomSlider').slider({
+                        formatter: function(value) {
+                            return 'zoom: ' + value + '%';
+                        }
+                    });
+                    $("#zoomSlider").on("slideStop", function(slideEvt) {
+                        setZoom(slideEvt.value);
+                    });
+
+
+                    //Horizontal Pan
+                    $('#panHSlider').slider({
+                        formatter: function(value) {
+                            return 'x-axis: ' + value + 'px';
+                        }
+                    });
+                    $("#panHSlider").on("slideStop", function(slideEvt) {
+                        panH(slideEvt.value);
+                    });
+
+
+                    //Vertical Pan
+                    $('#panVSlider').slider({
+                        formatter: function(value) {
+                            return 'y-axis: ' + value + 'px';
+                        }
+                    });
+
+                    $("#panVSlider").on("slideStop", function(slideEvt) {
+                        panV(slideEvt.value);
+                    });
+
+
+                    //Rotate
+                    $('#rotateSlider').slider({
+                        formatter: function(value) {
+                            return value + ' degrees';
+                        }
+                    });
+
+                    $("#rotateSlider").on("slideStop", function(slideEvt) {
+                        rotate(slideEvt.value);
+                    });
+
+                    init();
+                    layout();
+                    bindThumbnailEvents();
+
+                    //render the "empty" toolbar
+                    renderToolbar('POSITION');
+
+                    //load instructions into background of canvas
+                    setImage(theImage, image_context, "images/Instructions.png", scale, translatePos, rotateAngle);
+                    backgroundURL = "images/Instructions.png";
+
+                }
+
+            });
+
+            //load external materials view
+            $("#materials").load('views/materials.html');
+
+            //attach these events once materials view is loaded to dom
+            $("#materials").on('DOMNodeInserted', '#view-materials', function(e) {
+                $('.spinner .btn:first-of-type').on('click', function() {
+                    var btn = $(this);
+                    var input = btn.closest('.spinner').find('input');
+                    if (input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max'))) {
+                        if (input.attr('data-format') == undefined || input.attr('data-format') != 'currency') {
+                            input.val(parseInt(input.val(), 10) + 1);
+                        } else {
+                            input.val((parseFloat(input.val()) + 1.00).toFixed(2));
+
+                        }
+                        //fire the onchange event
+                        input.change();
+                    } else {
+                        btn.next("disabled", true);
+                    }
+                });
+                $('.spinner .btn:last-of-type').on('click', function() {
+                    var btn = $(this);
+                    var input = btn.closest('.spinner').find('input');
+                    if (input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min'))) {
+                        if (input.attr('data-format') == undefined || input.attr('data-format') != 'currency') {
+                            input.val(parseInt(input.val(), 10) - 1);
+                        } else {
+                            input.val((parseFloat(input.val()) - 1.00).toFixed(2));
+                        }
+                        //fire the onchange event
+                        input.change();
+                    } else {
+                        btn.prev("disabled", true);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

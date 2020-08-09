@@ -1,0 +1,335 @@
+<div class="well" id="view-materials">
+    <div class="well material-item">
+        <div class="row">
+            <div class="col-xs-3">
+                Item
+            </div>
+            <div class="col-xs-2">
+                Unit Of Measure
+            </div>
+            <div class="col-xs-2">
+                Options
+            </div>
+            <div class="col-xs-1">
+                Quantity
+            </div>
+            <div class="col-xs-2">
+                Unit Cost
+            </div>
+            <div class="col-xs-2">
+                Ext. Cost
+            </div>
+        </div>
+    </div>
+    <div class="well material-item">
+        <div class="row">
+            <div class="col-xs-3">
+                Shingles
+            </div>
+            <div class="col-xs-2">
+                33 sq/ft Bundle
+            </div>
+            <div class="col-xs-2">
+                Waste: <select id="option_shingles" placeholder="Waste" class="form-control"
+                    onchange="updateMaterialOption(this)">
+                    <option value="0">0%</option>
+                    <option value="5">5%</option>
+                    <option value="10" selected>10%</option>
+                    <option value="15">15%</option>
+                    <option value="20">20%</option>
+                    <option value="25">25%</option>
+                </select>
+            </div>
+            <div class="col-xs-1">
+                <div class="input-group spinner">
+                    <input type="text" id="qty_shingles" placeholder="Shingle Qty" class="form-control" value="50"
+                        min="0" onchange="updateMaterialQuantity(this)">
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group spinner">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" id="price_shingles" placeholder="Shingle Price" value="32.50" min="0"
+                        data-format="currency" class="form-control" onchange="updateMaterialCost(this)">
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="ext_price_shingles" readonly placeholder="Shingle Subtotal" class="form-control"
+                        data-format="currency">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well material-item">
+        <div class="row">
+            <div class="col-xs-3">
+                Ridge Cap
+            </div>
+            <div class="col-xs-2">
+                Hip and Ridge (20 linear ft. per Bundle)
+            </div>
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-1">
+                <div class="input-group spinner">
+                    <input type="text" id="qty_ridgecap" placeholder="Shingle Qty" class="form-control" value="3"
+                        min="0" onchange="updateMaterialQuantity(this)" />
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group spinner">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" id="price_ridgecap" placeholder="Shingle Price" value="32.50" min="0"
+                        data-format="currency" class="form-control" onchange="updateMaterialCost(this)">
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="ext_price_ridgecap" readonly placeholder="Ridgecap Subtotal" class="form-control"
+                        data-format="currency">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well material-item">
+        <div class="row">
+            <div class="col-xs-3">
+                Ridge Vent
+            </div>
+            <div class="col-xs-2">
+                Rolled Ridge Vent (20 linear ft. per Roll)
+            </div>
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-1">
+                <div class="input-group spinner">
+                    <input type="text" id="qty_ridgevent" placeholder="" class="form-control" value="3" min="0"
+                        onchange="updateMaterialQuantity(this)" />
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group spinner">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" id="price_ridgevent" placeholder="Price" value="32.50" min="0"
+                        data-format="currency" class="form-control" onchange="updateMaterialCost(this)">
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="ext_price_ridgevent" readonly placeholder="Ridgevent Subtotal" class="form-control"
+                        data-format="currency">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well material-item">
+        <div class="row">
+            <div class="col-xs-3">
+                Drip Edge
+            </div>
+            <div class="col-xs-2">
+                10' Section
+            </div>
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-1">
+                <div class="input-group spinner">
+                    <input type="text" id="qty_dripedge" placeholder="Shingle Qty" class="form-control" value="20"
+                        min="0" onchange="updateMaterialQuantity(this)" />
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group spinner">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" id="price_dripedge" placeholder="Shingle Price" value="5.99" min="0"
+                        data-format="currency" class="form-control" onchange="updateMaterialCost(this)">
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="ext_price_dripedge" readonly placeholder="Drip Edge Subtotal" class="form-control"
+                        data-format="currency">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well material-item">
+        <div class="row">
+            <div class="col-xs-3">
+                Underlayment
+            </div>
+            <div class="col-xs-2">
+                1000 sq/ft Roll
+            </div>
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-1">
+                <div class="input-group spinner">
+                    <input type="text" id="qty_underlayment" placeholder="Shingle Qty" class="form-control" value="8"
+                        min="0" onchange="updateMaterialQuantity(this)" />
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group spinner">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" id="price_underlayment" placeholder="Shingle Price" value="20.00" min="0"
+                        data-format="currency" class="form-control" onchange="updateMaterialCost(this)" />
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="ext_price_underlayment" readonly placeholder="Underlayment Subtotal" class="form-control"
+                        data-format="currency">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well material-item">
+        <div class="row">
+            <div class="col-xs-3">
+                Ice & Water Shield
+            </div>
+            <div class="col-xs-2">
+                75' x 36" Roll
+            </div>
+            <div class="col-xs-2">
+                Coverage: <select id="option_iceandwater" placeholder="Coverage" class="form-control"
+                    onchange="updateMaterialOption(this)">
+                    <option value="1" selected>3 Feet</option>
+                    <option value="2">6 Feet</option>
+                    <option value="3">9 Feet</option>
+                    <option value="4">12 Feet</option>
+
+                </select>
+            </div>
+            <div class="col-xs-1">
+                <div class="input-group spinner">
+                    <input type="text" id="qty_iceandwater" placeholder="Shingle Qty" class="form-control" value="2"
+                        min="0" onchange="updateMaterialQuantity(this)" />
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group spinner">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" id="price_iceandwater" placeholder="Shingle Price" value="185.00" min="0"
+                        data-format="currency" class="form-control" onchange="updateMaterialCost(this)" />
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="ext_price_iceandwater" readonly placeholder="Ice & Water Subtotal" class="form-control"
+                        data-format="currency">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well material-item">
+        <div class="row">
+            <div class="col-xs-3">
+                Nails
+            </div>
+            <div class="col-xs-2">
+                Box Of 7200 Nails
+            </div>
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-1">
+                <div class="input-group spinner">
+                    <input type="text" id="qty_nails" placeholder="Nail Qty" class="form-control" value="6" min="0"
+                        onchange="updateMaterialQuantity(this)" />
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group spinner">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" id="price_nails" placeholder="Nail Price" value="12.00" min="0"
+                        data-format="currency" class="form-control" onchange="updateMaterialCost(this)" />
+                    <div class="input-group-btn-vertical">
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="ext_price_nails" readonly placeholder="Nails Subtotal" class="form-control"
+                        data-format="currency">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well material-item">
+        <div class="row">
+            <div class="col-xs-10">
+                Materials Total
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="ext_price_all" readonly placeholder="Job Total" class="form-control"
+                        data-format="currency">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="init-view" id="view-toolbar">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label>Mode</label>
+            <div class="btn-group btn-toggle" id="grpModes">
+                <button id="modePosition" type="button" class="btn btn-sm btn-primary active">Image</button>
+                <button id="modeOverlay" type="button" class="btn btn-sm btn-primary">Trace</button>
+                <button id="modeLines" type="button" class="btn btn-sm btn-primary">Assign</button>
+                <button id="modeMaterials" type="button" class="btn btn-sm btn-primary">Materials</button>
+                <button id="modeRoofData" type="button" class="btn btn-sm btn-primary">Data</button>
+                <button id="modePrint" type="button" class="btn btn-sm btn-primary">Report</button>
+            </div>
+            <input id="shapeName" placeholder="Current Section name" class="form-control">
+            <select id="pitch" placeholder="Pitch" class="form-control">
+                <option value="-1">Pitch</option>
+                <option value="0">0:12</option>
+                <option value="1">1:12</option>
+                <option value="2">2:12</option>
+                <option value="3">3:12</option>
+                <option value="4">4:12</option>
+                <option value="5">5:12</option>
+                <option value="6">6:12</option>
+                <option value="7">7:12</option>
+                <option value="8">8:12</option>
+                <option value="9">9:12</option>
+                <option value="10">10:12</option>
+                <option value="11">11:12</option>
+                <option value="12">12:12</option>
+            </select>
+            <span id="linetype-toolbar">
+                &nbsp;&nbsp;&nbsp;
+                <label>Assign Line Type</label>
+                <div class="btn-group btn-toggle">
+                    <button id="line-type-rake" type="button" class="btn btn-sm btn-primary active">Rake</button>
+                    <button id="line-type-eave" type="button" class="btn btn-sm btn-primary">Eave</button>
+                    <button id="line-type-valley" type="button" class="btn btn-sm btn-primary">Valley</button>
+                    <button id="line-type-hip" type="button" class="btn btn-sm btn-primary">Hip</button>
+                    <button id="line-type-ridge" type="button" class="btn btn-sm btn-primary">Ridge</button>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="rooflines-toolbar">
+                <button id="saveCurrent" type="button" title="save shape" class="btn btn-sm btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span></button>
+                <button id="undoclick" type="button" title="undo click" class="btn btn-sm btn-primary"><span
+                        class="glyphicon glyphicon-chevron-left"></span></button>
+                <button id="clear" type="button" title="clear all" class="btn btn-sm btn-primary"><span
+                        class="glyphicon glyphicon-remove-circle"></span></button>
+                <button id="hideBackground" type="button" title="hide picture" class="btn btn-sm btn-primary"><span
+                        class="glyphicon glyphicon-eye-close"></span></button>
+                <button id="showBackground" type="button" title="show picture" class="btn btn-sm btn-primary"><span
+                        class="glyphicon glyphicon-eye-open"></span></button>
+                &nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="materials-toolbar">
+                <button id="reset_autocalc" type="button" title="reset auto calc" class="btn btn-sm btn-primary"><span
+                        class="glyphicon glyphicon-check"></span>Reset Auto Calculation of Qty</button>
+            </span>
+            <span id="diagram-save-toolbar">
+                <input id="saveDiagramFilename" placeholder="filename" class="form-control">
+                <select id="saveDiagramPosition" placeholder="Position" class="form-control">
+                    <option value="-1">#</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <button id="saveCurrentDiagramImage" type="button" title="save shape"
+                    class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+                <!-- <span id="mouse-coordinates">(0,0)</span> -->
+                <span id="line-data"></span>
+            </span>
+            <div id="image-position-toolbar" class="well image-postion-toolbar">
+                <label>Image</label>
+                <button id="toggleCrop" type="button" title="Crop" class="btn btn-sm btn-primary"><span
+                        class="fa fa-crop"></span></button>
+                <span title="zoom"><i class="fa fa-search fa-lg" aria-hidden="true"></i>
+                    <input id="zoomSlider" class="position-slider" data-slider-id='zoomSlider1' type="text"
+                        data-slider-min="5" data-slider-max="300" data-slider-step="5" data-slider-value="100" />
+                </span>
+                <span title="+/- X axis"><i class="fa fa-arrows-h fa-lg" aria-hidden="true"></i>
+                    <input id="panHSlider" class="position-slider slider-adjustment" data-slider-id='panHSlider1'
+                        type="text" data-slider-min="-1200" data-slider-max="1200" data-slider-step="5"
+                        data-slider-value="0" />
+                </span>
+                <span title="+/- Y axis"><i class="fa fa-arrows-v fa-lg" aria-hidden="true"></i>
+                    <input id="panVSlider" class="position-slider slider-adjustment" data-slider-id='panVSlider1'
+                        type="text" data-slider-min="-1200" data-slider-max="1200" data-slider-step="5"
+                        data-slider-value="0" />
+                </span>
+                <span title="rotate"><i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
+                    <input id="rotateSlider" class="position-slider slider-adjustment" data-slider-id='rotateSlider1'
+                        type="text" data-slider-min="-180" data-slider-max="180" data-slider-step="1"
+                        data-slider-value="0" />
+                </span>
+                <button id="reset" type="button" title="reset image" class="btn btn-sm btn-primary"><span
+                        class="glyphicon glyphicon-check"></span></button>
+                <input id="saveFilename" placeholder="filename" class="form-control">
+                <select id="savePosition" placeholder="Position" class="form-control">
+                    <option value="-1">#</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <button id="saveCurrentImage" type="button" title="save shape" class="btn btn-sm btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
